@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-1.11.3.min.js"></script>
+    <script>
+        $(function () {
+            var a = null;
+            $.ajax({
+                url:"http://localhost:3000/cou",
+                type:"GET",
+                success:function (e) {
+                    a = JSON.stringify(e[0]).split(':')[1].split('}')[0];
+                    var num = parseInt(a/2);
+                    for(var i=0;i<num;i++){
+                        $(".tag").append("<p th_id='"+i+"'>"+(i+1)+"</p>")
+
+                    }
+                }
+            });
+            $(".tag").on("click","p",function () {
+                var _this=$(this).attr("th_id");
+                $.ajax({
+                    url:"http://localhost:3000/click",
+                    type:"POST",
+                    data:{
+                        a:Number(_this)*2
+                    },
+                    success:function (e) {
+                        $(".box").html("")
+                        for(var i in e){
+                            $(".box").append("<h2>"+e[i].title+"</h2>")
+                        }
+
+                    }
+                })
+            })
+        })
+    </script>
+    <style>
+        .box{
+            width: 1000px;
+            height: 300px;
+            border: 1px solid #1c70e9;
+            margin: 0 auto;
+        }
+        .tag{
+            width: 1000px;
+            height: 50px;
+            margin: 10px auto;
+            background: #e2e2e2;
+        }
+        .tag p{
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            float: left;
+            background: whitesmoke;
+            margin: 10px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+
+</div>
+<div class="tag">
+
+</div>
+</body>
+</html>
