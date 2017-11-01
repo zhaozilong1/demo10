@@ -6,26 +6,12 @@
     <script src="jquery-1.11.3.min.js"></script>
     <script>
         $(function () {
-            var a = null;
-            $.ajax({
-                url:"http://localhost:3000/cou",
-                type:"GET",
-                success:function (e) {
-                    a = JSON.stringify(e[0]).split(':')[1].split('}')[0];
-                    var num = parseInt(a/2);
-                    for(var i=0;i<num;i++){
-                        $(".tag").append("<p th_id='"+i+"'>"+(i+1)+"</p>")
-
-                    }
-                }
-            });
-            $(".tag").on("click","p",function () {
-                var _this=$(this).attr("th_id");
+            function aa(b) {
                 $.ajax({
                     url:"http://localhost:3000/click",
                     type:"POST",
                     data:{
-                        a:Number(_this)*2
+                        a:b
                     },
                     success:function (e) {
                         $(".box").html("")
@@ -35,6 +21,23 @@
 
                     }
                 })
+            }
+            var a = null;
+            $.ajax({
+                url:"http://localhost:3000/cou",
+                type:"GET",
+                success:function (e) {
+                    a = JSON.stringify(e[0]).split(':')[1].split('}')[0];
+                    var num = parseInt(a/2);
+                    for(var i=0;i<num;i++){
+                        $(".tag").append("<p th_id='"+i+"'>"+(i+1)+"</p>")
+                    }
+                    aa(0)
+                }
+            });
+            $(".tag").on("click","p",function () {
+                var _this=$(this).attr("th_id");
+                aa(Number(_this)*2)
             })
         })
     </script>
